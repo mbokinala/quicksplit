@@ -218,3 +218,17 @@ Use new function syntax with validators.
 3. Split UI and validations + expenses list.
 4. Payments UI + balances table improvements.
 5. (Optional) move to derived balances table for performance.
+
+## Status update
+### Done
+- Convex schema and core functions for profiles, groups, members, expenses, payments, and balances.
+- Group creation flow (`/groups/new`) wired to Convex mutations.
+- Group dashboard (`/groups/[groupId]`) with balances, members, and recent activity.
+- Group list landing (`/home`) showing user groups and link to create a group.
+- Invite/claim flow (`/invite/[code]`) with sign-in prompt and claiming members.
+- Expense creation UI (`/groups/[groupId]/expenses/new`) with equal/custom split entry.
+- Payment recording UI (`/groups/[groupId]/payments/new`).
+
+### Remaining
+- Balance table polish and any derived `memberBalances` optimization if needed.
+- Manual verification and tests/seed data if applicable.

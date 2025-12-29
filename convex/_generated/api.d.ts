@@ -10,7 +10,14 @@
 
 import type * as PhoneOTP from "../PhoneOTP.js";
 import type * as auth from "../auth.js";
+import type * as balances from "../balances.js";
+import type * as expenses from "../expenses.js";
+import type * as groups from "../groups.js";
+import type * as helpers from "../helpers.js";
 import type * as http from "../http.js";
+import type * as members from "../members.js";
+import type * as payments from "../payments.js";
+import type * as profiles from "../profiles.js";
 import type * as users from "../users.js";
 
 import type {
@@ -22,7 +29,14 @@ import type {
 declare const fullApi: ApiFromModules<{
   PhoneOTP: typeof PhoneOTP;
   auth: typeof auth;
+  balances: typeof balances;
+  expenses: typeof expenses;
+  groups: typeof groups;
+  helpers: typeof helpers;
   http: typeof http;
+  members: typeof members;
+  payments: typeof payments;
+  profiles: typeof profiles;
   users: typeof users;
 }>;
 

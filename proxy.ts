@@ -8,7 +8,7 @@ import {
 const isSignInPage = createRouteMatcher(["/signin"]);
 
 // Add unprotected routes here
-const isUnprotected = createRouteMatcher(["/", "/signin"]);
+const isUnprotected = createRouteMatcher(["/", "/signin", "/invite/:path*"]);
 
 export const proxy = convexAuthNextjsMiddleware(async (request, { convexAuth }) => {
     if (isSignInPage(request) && (await convexAuth.isAuthenticated())) {
