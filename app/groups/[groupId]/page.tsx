@@ -536,14 +536,14 @@ export default function GroupDashboardPage({ params }: GroupDashboardPageProps) 
 
         <section>
           <Tabs defaultValue={defaultTab} className="w-full">
-            <TabsList className="grid w-full max-w-md grid-cols-5 md:grid-cols-4 border border-border/60 bg-muted/50 backdrop-blur-sm">
-              <TabsTrigger value="overview" className="md:hidden data-[state=active]:bg-background">
+            <TabsList className="grid w-full grid-cols-5 md:max-w-lg md:grid-cols-4 border border-border/60 bg-muted/50 backdrop-blur-sm">
+              <TabsTrigger value="overview" className="md:hidden data-[state=active]:bg-background text-xs sm:text-sm px-2 sm:px-3">
                 Overview
               </TabsTrigger>
-              <TabsTrigger value="expenses" className="data-[state=active]:bg-background">Expenses</TabsTrigger>
-              <TabsTrigger value="payments" className="data-[state=active]:bg-background">Payments</TabsTrigger>
-              <TabsTrigger value="balances" className="data-[state=active]:bg-background">Balances</TabsTrigger>
-              <TabsTrigger value="members" className="data-[state=active]:bg-background">Members</TabsTrigger>
+              <TabsTrigger value="expenses" className="data-[state=active]:bg-background text-xs sm:text-sm px-2 sm:px-3">Expenses</TabsTrigger>
+              <TabsTrigger value="payments" className="data-[state=active]:bg-background text-xs sm:text-sm px-2 sm:px-3">Payments</TabsTrigger>
+              <TabsTrigger value="balances" className="data-[state=active]:bg-background text-xs sm:text-sm px-2 sm:px-3">Balances</TabsTrigger>
+              <TabsTrigger value="members" className="data-[state=active]:bg-background text-xs sm:text-sm px-2 sm:px-3">Members</TabsTrigger>
             </TabsList>
 
             <TabsContent value="overview" className="mt-6 md:hidden">
