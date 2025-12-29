@@ -17,7 +17,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "QuickSplit - Split bills easily",
-  description: "Track group expenses, split bills fairly, and see who owes what—all without the awkward conversations.",
+  description: "Track group expenses, split bills fairly, and see who owes what.",
 };
 
 export default function Page() {
@@ -45,7 +45,7 @@ export default function Page() {
               QuickSplit
             </h1>
             <p className="mx-auto max-w-2xl text-lg text-muted-foreground sm:text-xl lg:text-2xl">
-              Track group expenses, split bills fairly, and see who owes what—all without the awkward conversations.
+              Track group expenses, split bills fairly, and see who owes what.
             </p>
           </div>
           <div className="flex flex-col gap-4 sm:flex-row">
