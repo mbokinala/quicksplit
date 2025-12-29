@@ -1,0 +1,1 @@
+This project uses Next.js, shadcn, Convex, and Convex auth. When using convex, refer to CONVEX_RULES.mdc for instructions.
