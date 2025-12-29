@@ -163,3 +163,63 @@ export const get = query({
     return group;
   },
 });
+
+export const remove = mutation({
+  args: {
+    groupId: v.id("groups"),
+  },
+  returns: v.null(),
+  handler: async (ctx, args) => {
+    const userId = await requireAuthUserId(ctx);
+    const group = await ctx.db.get(args.groupId);
+    if (!group) {
+      throw new Error("Group not found");
+    }
+    if (group.createdBy !== userId) {
+      throw new Error("Only the group owner can delete this group");
+    }
+
+    const balances = await ctx.db
+      .query("memberBalances")
+      .withIndex("by_groupId", (q) => q.eq("groupId", args.groupId))
+      .collect();
+    for (const balance of balances) {
+      await ctx.db.delete(balance._id);
+    }
+
+    const payments = await ctx.db
+      .query("payments")
+      .withIndex("by_groupId", (q) => q.eq("groupId", args.groupId))
+      .collect();
+    for (const payment of payments) {
+      await ctx.db.delete(payment._id);
+    }
+
+    const shares = await ctx.db
+      .query("expenseShares")
+      .withIndex("by_groupId", (q) => q.eq("groupId", args.groupId))
+      .collect();
+    for (const share of shares) {
+      await ctx.db.delete(share._id);
+    }
+
+    const expenses = await ctx.db
+      .query("expenses")
+      .withIndex("by_groupId", (q) => q.eq("groupId", args.groupId))
+      .collect();
+    for (const expense of expenses) {
+      await ctx.db.delete(expense._id);
+    }
+
+    const members = await ctx.db
+      .query("groupMembers")
+      .withIndex("by_groupId", (q) => q.eq("groupId", args.groupId))
+      .collect();
+    for (const member of members) {
+      await ctx.db.delete(member._id);
+    }
+
+    await ctx.db.delete(args.groupId);
+    return null;
+  },
+});

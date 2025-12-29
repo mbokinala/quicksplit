@@ -156,7 +156,7 @@ export default function InvitePage({ params }: InvitePageProps) {
                   )}
                   {unclaimedMembers?.length === 0 && (
                     <p className="text-muted-foreground">
-                      No not joined members yet. Ask the admin to add you.
+                      No unclaimed members yet. Enter your name below to join.
                     </p>
                   )}
                   {unclaimedMembers?.map((member) => (

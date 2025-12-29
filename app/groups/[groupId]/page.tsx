@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import React, { useEffect, useMemo, useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useMutation, useQuery } from "convex/react";
 import type { Id } from "@/convex/_generated/dataModel";
 import { api } from "@/convex/_generated/api";
@@ -11,6 +11,18 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogMedia,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import {
   Select,
   SelectContent,
@@ -50,6 +62,7 @@ export default function GroupDashboardPage({ params }: GroupDashboardPageProps) 
   const { groupId: groupIdParam } = React.use(params);
   const groupId = groupIdParam as Id<"groups">;
   const searchParams = useSearchParams();
+  const router = useRouter();
   const tabParam = searchParams.get("tab");
   const defaultTab = tabParam && ["expenses", "payments", "balances", "members", "overview"].includes(tabParam)
     ? tabParam
@@ -62,6 +75,7 @@ export default function GroupDashboardPage({ params }: GroupDashboardPageProps) 
   const signedInUser = useQuery(api.users.getSignedInUser);
   const createMember = useMutation(api.members.create);
   const updateMyDisplayName = useMutation(api.members.updateMyDisplayName);
+  const deleteGroup = useMutation(api.groups.remove);
 
   const [newMemberName, setNewMemberName] = useState("");
   const [isAddingMember, setIsAddingMember] = useState(false);
@@ -74,6 +88,8 @@ export default function GroupDashboardPage({ params }: GroupDashboardPageProps) 
   const [displayNameSaved, setDisplayNameSaved] = useState(false);
   const [isDisplayNameDirty, setIsDisplayNameDirty] = useState(false);
   const [isEditingDisplayName, setIsEditingDisplayName] = useState(false);
+  const [isDeletingGroup, setIsDeletingGroup] = useState(false);
+  const [deleteGroupError, setDeleteGroupError] = useState<string | null>(null);
   const [balanceGrouping, setBalanceGrouping] = useState<"borrower" | "lender">(
     "borrower",
   );
@@ -99,6 +115,13 @@ export default function GroupDashboardPage({ params }: GroupDashboardPageProps) 
     const match = members.find((member) => member.userId === signedInUser._id);
     return match?._id ?? null;
   }, [members, signedInUser]);
+
+  const isGroupOwner = useMemo(() => {
+    if (!group || !signedInUser) {
+      return false;
+    }
+    return group.createdBy === signedInUser._id;
+  }, [group, signedInUser]);
 
   const currentMember = useMemo(() => {
     if (!members || !memberId) {
@@ -246,6 +269,18 @@ export default function GroupDashboardPage({ params }: GroupDashboardPageProps) 
       }))
       .sort((a, b) => b.totalCents - a.totalCents);
   }, [balances, balanceGrouping]);
+
+  const handleDeleteGroup = async () => {
+    setDeleteGroupError(null);
+    setIsDeletingGroup(true);
+    try {
+      await deleteGroup({ groupId });
+      router.push("/home");
+    } catch (err) {
+      setDeleteGroupError(formatConvexError(err, "Failed to delete group"));
+      setIsDeletingGroup(false);
+    }
+  };
 
   const addUnclaimedMember = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -453,6 +488,46 @@ export default function GroupDashboardPage({ params }: GroupDashboardPageProps) 
                 <LinkIcon className="h-4 w-4" />
                 <span>{inviteCopied ? "Copied!" : "Copy invite"}</span>
               </Button>
+              {isGroupOwner && (
+                <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                    <Button variant="destructive" className="gap-2">
+                      <AlertTriangle className="h-4 w-4" />
+                      Delete group
+                    </Button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent size="sm">
+                    <AlertDialogHeader>
+                      <AlertDialogMedia>
+                        <AlertTriangle className="h-5 w-5 text-destructive" />
+                      </AlertDialogMedia>
+                      <AlertDialogTitle>Delete this group?</AlertDialogTitle>
+                      <AlertDialogDescription>
+                        This permanently deletes the group, members, expenses, and payments. This can&apos;t be undone.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    {deleteGroupError && (
+                      <div
+                        role="alert"
+                        className="flex items-start gap-2 rounded-md border border-destructive/30 bg-destructive/10 px-3 py-2 text-xs text-destructive"
+                      >
+                        <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" />
+                        <span>{deleteGroupError}</span>
+                      </div>
+                    )}
+                    <AlertDialogFooter>
+                      <AlertDialogCancel disabled={isDeletingGroup}>Cancel</AlertDialogCancel>
+                      <AlertDialogAction
+                        variant="destructive"
+                        onClick={handleDeleteGroup}
+                        disabled={isDeletingGroup}
+                      >
+                        {isDeletingGroup ? "Deleting..." : "Delete group"}
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
+              )}
             </div>
           </div>
         </header>

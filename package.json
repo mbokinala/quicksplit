@@ -1,5 +1,5 @@
 {
-  "name": "easysplit",
+  "name": "quicksplit",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -13,6 +13,7 @@
     "@base-ui/react": "^1.0.0",
     "@convex-dev/auth": "^0.0.90",
     "@oslojs/crypto": "^1.0.1",
+    "@surgeapi/node": "^0.29.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "convex": "^1.31.2",

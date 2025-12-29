@@ -4,7 +4,7 @@ import { sendSMS } from "@/lib/send-sms";
 
 export const PhoneOTP = Phone({
     id: "phone-otp",
-    apiKey: process.env.SMS_API_KEY,
+    apiKey: process.env.SURGE_API_KEY,
     maxAge: 60 * 15, // 15 minutes
     async generateVerificationToken() {
         const random: RandomReader = {
@@ -14,14 +14,14 @@ export const PhoneOTP = Phone({
         };
 
         const alphabet = "0123456789";
-        const length = 8;
+        const length = 6;
         return generateRandomString(random, alphabet, length);
     },
     async sendVerificationRequest({ identifier: phone, provider, token }) {
         if (!provider.apiKey) {
-            throw new Error("SMS API key not set");
+            throw new Error("Surge API key not set");
         }
 
-        await sendSMS(phone, token, provider.apiKey);
+        await sendSMS(phone, `Your QuickSplit login code is: ${token}`, provider.apiKey);
     },
 });

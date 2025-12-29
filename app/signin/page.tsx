@@ -1,6 +1,10 @@
-"use client";
-
 import { SignIn } from "@/components/sign-in";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Sign In - QuickSplit",
+  description: "Sign in to manage your expense groups and track shared bills.",
+};
 
 export default function SignInPage() {
     return (
@@ -8,7 +12,7 @@ export default function SignInPage() {
             <div className="flex min-h-[calc(100vh-6rem)] items-center">
             <div className="mx-auto flex w-full max-w-md flex-col gap-6">
                 <div className="text-center text-sm font-semibold uppercase tracking-[0.4em] text-muted-foreground">
-                    EasySplit
+                    QuickSplit
                 </div>
                 <SignIn />
             </div>

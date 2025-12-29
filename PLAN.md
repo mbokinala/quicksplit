@@ -1,4 +1,4 @@
-# EasySplit Plan
+# QuickSplit Plan
 
 ## Product goals
 - Let users create groups, add members (even before they join), add shared expenses, record payments, and see who owes who.

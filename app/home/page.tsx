@@ -59,7 +59,7 @@ export default function HomePage() {
           <div className="flex items-center justify-between gap-4">
             <div className="space-y-1">
               <p className="text-xs uppercase tracking-[0.35em] text-muted-foreground">
-                EasySplit
+                QuickSplit
               </p>
               <h1 className="text-3xl font-semibold">Your groups</h1>
             </div>
