@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Inter } from "next/font/google";
+import { Geist, Geist_Mono, Work_Sans } from "next/font/google";
 import "./globals.css";
 import { ConvexClientProvider } from "./ConvexClientProvider";
 import { ConvexAuthNextjsServerProvider } from "@convex-dev/auth/nextjs/server";
 import { Header } from "@/components/header";
 
-const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
+const workSans = Work_Sans({ subsets: ['latin'], variable: '--font-sans' });
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,7 +29,7 @@ export default function RootLayout({
 }>) {
   return (
     <ConvexAuthNextjsServerProvider>
-      <html lang="en" className={inter.variable}>
+      <html lang="en" className={workSans.variable}>
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
